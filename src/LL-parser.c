@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "stack.h"
+#include "LL-table.h"
 
 char * reverse_string(char * original_string)
 {
@@ -25,7 +26,7 @@ char * reverse_string(char * original_string)
     return new_string;
 }
 
-int ll_parse(char const *input_string, char ***lltable)
+int ll_parse(char const *input_string, hash_table_t *table)
 {
     stack_t* derivation_tree_stack = stack_create();
     stack_push(derivation_tree_stack, 'S'); 
@@ -50,8 +51,11 @@ int ll_parse(char const *input_string, char ***lltable)
         }
         else
         {
-            production_to_be_added = lltable[top_symbol][analysed_input_symbol];
+            char key[4];
+            snprintf(key, sizeof(key), "%c%c", top_symbol, analysed_input_symbol);
 
+            production_to_be_added = hash_table_lookup(table, key);
+            
             if (production_to_be_added == NULL)
             {
                 return 1;

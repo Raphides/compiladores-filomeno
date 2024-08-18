@@ -226,7 +226,7 @@ int main(int argc, char const *argv[]) {
         hash_table_insert(ll_table, key, production);
     }
 
-    char input_string1[] = "a*b+c";
+    char input_string1[] = "(a+a)";
     if (ll_parser_algorithm(input_string1, ll_table) == 0) {
         printf("Input '%s' string valida.\n", input_string1);
     } else {
