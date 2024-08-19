@@ -10,8 +10,8 @@
 
 void __first_set_lookup_aux(cfg_t* grammar, char symbol, bool *has_empty_adress, char* dst)
 {
-    // if symbol is terminal
-    if (strchr(grammar->terminals, symbol) != NULL)
+    // if symbol is terminal and is not already in DST
+    if ((strchr(grammar->terminals, symbol) != NULL) && strchr(dst, symbol) == NULL)
     {
         char * result = "\0\0";
         result[0] = symbol;
@@ -107,7 +107,7 @@ int __follow_aux(cfg_t* grammar, char symbol, cfg_production_t *actual_productio
         {   // A -> BXC
             // FOLLOW(X) = FIRST(C)
             
-            char *tmp_first_set = first_set_lookup(grammar, match[1]);
+            char *tmp_first_set = multiple_first_set_lookup(grammar, match);
             strcat(dst, tmp_first_set);
             free(tmp_first_set);
         }
